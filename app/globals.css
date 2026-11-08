@@ -64,3 +64,8 @@ h3{font-size:1.05rem;margin:20px 0 6px}
 .stats,.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stats div,.qa a{background:#f4f7fb;border-radius:10px;padding:12px 6px;text-align:center;font-size:.8rem;color:var(--muted);text-decoration:none}.qa a{color:var(--ink);font-weight:600}.stats b{display:block;font-size:1.6rem;color:var(--ink)}
 .bell{border:0;padding:6px 8px}
 @media(max-width:1000px){.dash{grid-template-columns:1fr}.fcards{grid-template-columns:repeat(2,1fr)}.dpanels,.dhero{grid-template-columns:1fr}}
+
+.dhero{position:relative;overflow:hidden;grid-template-columns:1fr;min-height:270px;background:#0b2447 url(/hydcart-hero.jpg) right center/auto 100% no-repeat}
+.dhero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0b2447 0%,#0b2447 46%,rgba(11,36,71,0) 76%)}
+.dhero>div{position:relative;max-width:520px}
+@media(max-width:1000px){.dhero{background-image:none}.dhero::before{display:none}}

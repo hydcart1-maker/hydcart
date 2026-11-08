@@ -26,11 +26,6 @@ export default function Dashboard() {
             <p style={{ color: '#e6eefa' }}>Create Digital Menus, use Online Tools, and Promote your Business to more customers in Hyderabad.</p>
             <div className="row"><Link className="btn" href="/menus">Create Digital Menu</Link><Link className="btn ghost" href="/businesses">Promote Your Business</Link></div>
           </div>
-          <div className="stage" aria-hidden="true">
-            <div className="qr">Scan QR for Menu<i /></div>
-            <div className="phone"><h3>Restaurant Menu</h3>
-              <div className="tiles">{['Biryani', 'Chinese', 'Tandoori', 'Beverages'].map(x => <div key={x}>{x}</div>)}</div></div>
-          </div>
         </section>
         <section className="fcards">
           {cards.map(([t, s, d, bg, h]) => <Link key={t} href={h} className="card" style={{ background: bg }}><Icon d={d} color="#d9480f" size={30} /><b>{t}</b><small>{s}</small></Link>)}
