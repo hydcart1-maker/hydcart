@@ -52,3 +52,15 @@ select{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;b
 h3{font-size:1.05rem;margin:20px 0 6px}
 .chk{flex-direction:row;align-items:center;color:var(--ink);font-size:1rem}
 .res{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}.res img{width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.dash{display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;max-width:1240px;margin:16px auto;padding:0 16px}
+.side{background:var(--ink);color:#fff;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.me{display:flex;gap:10px;align-items:center;margin-bottom:10px}.me i{width:40px;height:40px;border-radius:50%;background:var(--bright);display:grid;place-items:center}.me b{display:block;font-size:.95rem}.me small{color:#c9d6ea}
+.side a{display:flex;gap:10px;align-items:center;color:#fff;text-decoration:none;padding:9px 10px;border-radius:8px;font-size:.92rem}.side a:hover{background:#1b3a6b}.side a.cur{background:var(--orange);font-weight:700}
+.promo{margin-top:auto;background:#16345f;border-radius:12px;padding:14px;font-weight:700;font-size:.95rem}.promo .btn{display:block;text-align:center;margin-top:10px;padding:8px}
+.dhero{background:linear-gradient(120deg,#0b2447 55%,#173a6a);color:#fff;border-radius:16px;padding:28px;display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center}.dhero h1{font-size:clamp(1.6rem,3vw,2.2rem)}
+.fcards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:16px 0}.fcards .card{text-align:left;padding:16px}.fcards .card small{margin-top:4px}
+.dpanels{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.box h2{font-size:1.1rem;display:flex;justify-content:space-between;align-items:center;gap:8px}.box h2 span{font-size:.8rem;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+.stats,.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stats div,.qa a{background:#f4f7fb;border-radius:10px;padding:12px 6px;text-align:center;font-size:.8rem;color:var(--muted);text-decoration:none}.qa a{color:var(--ink);font-weight:600}.stats b{display:block;font-size:1.6rem;color:var(--ink)}
+.bell{border:0;padding:6px 8px}
+@media(max-width:1000px){.dash{grid-template-columns:1fr}.fcards{grid-template-columns:repeat(2,1fr)}.dpanels,.dhero{grid-template-columns:1fr}}
