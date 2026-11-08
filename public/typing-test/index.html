@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cozy Type - Free Typing Speed Test in a Cozy Room</title>
+<meta name="description" content="Test your typing speed (WPM) for free in a cozy library or jungle meadow. Choose 30 second to 5 minute tests, type original stories, and track your accuracy and progress.">
+<meta property="og:title" content="Cozy Type - Free Typing Speed Test">
+<meta property="og:description" content="Type in a cozy room with falling leaves, fireflies and floating pages. Track WPM, accuracy, streaks and progress.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.hydcart.com/typing-test">
+<link rel="canonical" href="https://www.hydcart.com/typing-test">
+<style>
+  :root{--bg:#140d08;--paper:#f3e3c3;--ink:#2a1a10;--gold:#e8b45a;--good:#8fd694;--bad:#ff7a6b;--dim:#a89377;--mx:0;--my:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{background:var(--bg);color:var(--paper);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+
+  /* ================= SCENES ================= */
+  .scene{position:fixed;inset:0;z-index:0;overflow:hidden}
+  .sc{position:absolute;inset:0;transition:opacity .9s}
+  body[data-theme="library"] .sc.meadow{opacity:0}
+  body[data-theme="meadow"] .sc.library{opacity:0}
+  .layer{position:absolute;inset:-6%;transition:transform .15s ease-out}
+  .px{transform:translate(calc(var(--mx)*-12px),calc(var(--my)*-8px))}
+  .bgimg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s;animation:kb 45s ease-in-out infinite alternate}
+  .bgimg.on{opacity:1}
+  @keyframes kb{from{transform:scale(1)}to{transform:scale(1.09)}}
+  .rays{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:repeating-linear-gradient(105deg,transparent 0 120px,rgba(255,220,150,.09) 120px 175px,transparent 175px 300px);animation:rays 9s ease-in-out infinite alternate}
+  @keyframes rays{from{opacity:.35;transform:translateX(-2%)}to{opacity:1;transform:translateX(2%)}}
+
+  /* library (drawn fallback) */
+  .l-window{background:radial-gradient(ellipse 28% 42% at 50% 38%,rgba(255,230,160,.95),rgba(255,190,90,.55) 45%,transparent 70%),linear-gradient(180deg,#5b3a1e,#2b1a0e);transform:translate(calc(var(--mx)*-8px),calc(var(--my)*-6px))}
+  .l-window::after{content:"";position:absolute;left:36%;right:36%;top:14%;bottom:34%;border:10px solid #3a2111;border-radius:140px 140px 6px 6px;background:linear-gradient(90deg,transparent 49%,#3a2111 49% 51%,transparent 51%),linear-gradient(0deg,transparent 49%,#3a2111 49% 51%,transparent 51%),radial-gradient(circle at 40% 30%,rgba(255,240,180,.9),rgba(200,150,60,.5) 60%,rgba(60,90,40,.6));box-shadow:0 0 120px 40px rgba(255,190,90,.35)}
+  .shelf{position:absolute;top:0;bottom:0;width:30%;background:repeating-linear-gradient(180deg,transparent 0 118px,#2a170b 118px 130px),repeating-linear-gradient(90deg,#6b2d1f 0 14px,#8a5a2b 14px 26px,#2f4a3a 26px 44px,#a8742f 44px 54px,#3b2a55 54px 70px,#7a3b2a 70px 82px,#c9a35a 82px 92px);box-shadow:inset 0 0 80px rgba(0,0,0,.7);transform:translate(calc(var(--mx)*14px),calc(var(--my)*8px))}
+  .shelf.left{left:0}.shelf.right{right:0}
+  .l-plants{transform:translate(calc(var(--mx)*26px),calc(var(--my)*14px))}
+  .l-plants i{position:absolute;bottom:0;width:90px;height:160px;border-radius:50% 50% 8px 8px;background:radial-gradient(circle at 50% 30%,#4f8a4a,#1f4a2a 70%);opacity:.85}
+  .l-plants i:nth-child(1){left:26%}.l-plants i:nth-child(2){right:25%;height:200px}
+  .l-glow{background:radial-gradient(circle at 50% 30%,rgba(255,200,110,.15),transparent 55%),linear-gradient(180deg,rgba(20,10,5,.25),rgba(10,5,2,.72))}
+
+  /* meadow (drawn fallback) */
+  .sky{background:linear-gradient(180deg,#2d2a55 0%,#8a5a7a 28%,#f0a468 58%,#f7cf8a 78%)}
+  .sun{position:absolute;left:62%;top:36%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,#fff4c4 0%,#ffd77a 40%,rgba(255,180,90,0) 70%);transform:translate(calc(var(--mx)*-10px),calc(var(--my)*-6px));animation:pulse 6s ease-in-out infinite}
+  @keyframes pulse{50%{transform:translate(calc(var(--mx)*-10px),calc(var(--my)*-6px)) scale(1.08)}}
+  .hill{position:absolute;left:-15%;width:130%;border-radius:50% 50% 0 0/100% 100% 0 0}
+  .h1{bottom:30%;height:28%;background:#6a4f80;transform:translate(calc(var(--mx)*8px),calc(var(--my)*4px))}
+  .h2{bottom:16%;height:30%;background:#41604a;transform:translate(calc(var(--mx)*16px),calc(var(--my)*8px))}
+  .h3{bottom:-6%;height:34%;background:#244a2c;transform:translate(calc(var(--mx)*28px),calc(var(--my)*14px))}
+  .tree{position:absolute;bottom:20%;width:70px;height:150px;transform:translate(calc(var(--mx)*22px),calc(var(--my)*10px))}
+  .tree::before{content:"";position:absolute;left:50%;bottom:0;width:10px;height:60px;background:#3a2414;transform:translateX(-50%)}
+  .tree::after{content:"";position:absolute;left:0;right:0;top:0;height:110px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#5d9a4e,#244a2c 75%)}
+  .m-shade{background:linear-gradient(180deg,rgba(10,5,15,.2),rgba(10,5,2,.55))}
+
+  /* ================= JUNGLE FRAME: trunks, roots, vines ================= */
+  .frame{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;transform:translate(calc(var(--mx)*-6px),calc(var(--my)*-4px));transition:transform .2s}
+  .trunk{position:absolute;top:-10px;bottom:-10px;width:clamp(46px,7vw,110px);background:linear-gradient(180deg,rgba(90,150,60,.55),transparent 28%),repeating-linear-gradient(90deg,#1e1209 0 5px,#3a2412 5px 13px,#2a1a0d 13px 20px,#4a2f19 20px 24px);box-shadow:0 0 40px rgba(0,0,0,.6)}
+  .trunk.left{left:0;-webkit-mask-image:linear-gradient(90deg,#000 55%,transparent);mask-image:linear-gradient(90deg,#000 55%,transparent)}
+  .trunk.right{right:0;-webkit-mask-image:linear-gradient(270deg,#000 55%,transparent);mask-image:linear-gradient(270deg,#000 55%,transparent)}
+  .roots{position:absolute;bottom:-6px;width:min(300px,34vw);height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))}
+  .roots.left{left:0}.roots.right{right:0;transform:scaleX(-1)}
+  .vine{position:absolute;top:-4px;width:50px;transform-origin:50% 0;animation:sway 6s ease-in-out infinite;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+  @keyframes sway{0%,100%{transform:rotate(-2.6deg)}50%{transform:rotate(2.6deg)}}
+
+  /* ================= INSECTS ================= */
+  .bugs{position:fixed;inset:0;z-index:3;pointer-events:none;transition:opacity .6s}
+  body.typing .bugs{opacity:.35}
+  .ff{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff3a0;box-shadow:0 0 12px 5px rgba(255,235,120,.85);animation:wander 8s ease-in-out infinite,glowp 2.4s ease-in-out infinite}
+  @keyframes wander{0%,100%{transform:translate(0,0)}25%{transform:translate(26px,-34px)}50%{transform:translate(-18px,-64px)}75%{transform:translate(22px,-24px)}}
+  @keyframes glowp{0%,100%{opacity:.25}50%{opacity:1}}
+  .bf{position:absolute;width:28px;height:20px;animation:bfly 20s ease-in-out infinite}
+  .bf::before,.bf::after{content:"";position:absolute;top:0;width:14px;height:19px;background:radial-gradient(circle at 35% 30%,#fff,var(--c) 60%);box-shadow:0 0 14px 3px var(--c);animation:flap .22s ease-in-out infinite alternate}
+  .bf::before{left:0;border-radius:80% 20% 70% 30%;transform-origin:100% 50%}
+  .bf::after{right:0;border-radius:20% 80% 30% 70%;transform-origin:0 50%}
+  @keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.2)}}
+  @keyframes bfly{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(5vw,-14vh) rotate(12deg)}40%{transform:translate(-3vw,-26vh) rotate(-8deg)}60%{transform:translate(6vw,-6vh) rotate(10deg)}80%{transform:translate(-2vw,12vh) rotate(-10deg)}}
+  @media(max-width:700px){.bf{display:none}.trunk{display:none}}
+
+  /* falling leaves + flying pages + dust */
+  .fly{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+  .fly i{position:absolute;left:0;opacity:.6;animation:drift linear infinite}
+  @keyframes drift{0%{transform:translate(-8vw,0) rotate(0)}25%{transform:translate(22vw,calc(var(--dy)*.3 + 5vh)) rotate(120deg)}50%{transform:translate(50vw,calc(var(--dy)*.5 - 4vh)) rotate(210deg)}75%{transform:translate(78vw,calc(var(--dy)*.8 + 6vh)) rotate(300deg)}100%{transform:translate(108vw,var(--dy)) rotate(400deg)}}
+  .leaf{width:16px;height:16px;border-radius:0 100% 0 100%}
+  .page{width:20px;height:26px;border-radius:2px;background:repeating-linear-gradient(180deg,#f3e3c3 0 4px,#d9c59c 4px 5px);box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  .dust{position:fixed;inset:0;z-index:1;pointer-events:none}
+  .dust b{position:absolute;border-radius:50%;background:rgba(255,230,170,.75);animation:rise 12s linear infinite}
+  @keyframes rise{from{transform:translateY(105vh);opacity:0}15%{opacity:.8}to{transform:translateY(-10vh);opacity:0}}
+
+  /* ================= SPLASH ================= */
+  #splash{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 40%,#3b2210,#0e0805 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .9s,visibility .9s;text-align:center;padding:20px}
+  #splash.gone{opacity:0;visibility:hidden}
+  #splash h1{font-size:clamp(2.6rem,10vw,5.5rem);color:var(--gold);letter-spacing:4px;text-shadow:0 0 30px rgba(232,180,90,.6)}
+  #splash h1 span{display:inline-block;opacity:0;transform:translateY(-40px) rotate(-8deg);animation:drop .8s cubic-bezier(.2,1.4,.4,1) forwards}
+  @keyframes drop{to{opacity:1;transform:none}}
+  #splash p{color:var(--dim);margin:14px 0 26px;opacity:0;animation:fadein 1s 1.6s forwards;font-size:1.1rem}
+  #splash button{opacity:0;animation:fadein 1s 2.2s forwards}
+  @keyframes fadein{to{opacity:1}}
+  .fire{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffd77a;box-shadow:0 0 14px 6px rgba(255,200,100,.6);animation:fl 5s ease-in-out infinite}
+  @keyframes fl{0%,100%{transform:translate(0,0)}25%{transform:translate(30px,-40px)}50%{transform:translate(-20px,-70px)}75%{transform:translate(25px,-30px)}}
+
+  /* ================= LAYOUT ================= */
+  .wrap{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:22px 18px 60px}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px;flex-wrap:wrap}
+  .logo{font-size:1.9rem;color:var(--gold);text-shadow:0 2px 14px rgba(232,180,90,.4);cursor:pointer;font-weight:bold}
+  .hd-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .pill{background:rgba(28,17,10,.7);border:1px solid rgba(232,180,90,.3);border-radius:20px;padding:6px 14px;font-size:.9rem;color:var(--paper)}
+  .pill b{color:var(--gold)}
+  .card{background:rgba(28,17,10,.82);backdrop-filter:blur(8px);border:1px solid rgba(232,180,90,.25);border-radius:18px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.5);margin-bottom:18px;animation:up .7s both}
+  @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  button,select,input{font-family:inherit;font-size:1rem;color:var(--paper);background:rgba(232,180,90,.14);border:1px solid rgba(232,180,90,.4);border-radius:10px;padding:10px 16px;transition:.2s}
+  button,select{cursor:pointer}
+  button:hover,select:hover{background:rgba(232,180,90,.3);transform:translateY(-1px)}
+  button.primary{background:var(--gold);color:var(--ink);font-weight:bold;box-shadow:0 6px 20px rgba(232,180,90,.35)}
+  button.primary:hover{background:#f6c874}
+  select option{background:#2a1a10}
+  input{width:100%;max-width:280px;background:rgba(0,0,0,.35)}
+  /* leaves on buttons + pop */
+  button,.tile{position:relative}
+  button::after,.tile::after{content:"";position:absolute;top:-9px;right:-6px;width:17px;height:17px;border-radius:0 100% 0 100%;background:linear-gradient(135deg,#9bdc6a,#3f8a3a);transform:rotate(15deg);transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,.4);pointer-events:none}
+  button.primary::before{content:"";position:absolute;bottom:-8px;left:-5px;width:13px;height:13px;border-radius:0 100% 0 100%;background:linear-gradient(135deg,#e0a43a,#b8601f);transform:rotate(-100deg);box-shadow:0 2px 4px rgba(0,0,0,.4);pointer-events:none}
+  button:hover::after,.tile:hover::after{transform:rotate(45deg) scale(1.3)}
+  .pop{animation:popb .38s}
+  @keyframes popb{0%{transform:scale(1)}35%{transform:scale(.88)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+  .view{display:none}
+
+  /* home */
+  .hero{text-align:center;padding:26px 10px 8px}
+  .hero h2{font-size:clamp(1.8rem,5vw,3rem);background:linear-gradient(90deg,#f6d58a,#e8b45a,#fff2c4,#e8b45a,#f6d58a);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+  @keyframes shine{to{background-position:250% 0}}
+  .hero p{color:var(--dim);margin-top:8px;font-size:1.1rem}
+  .cfg{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:20px 0 14px}
+  .cfg label{display:flex;flex-direction:column;font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;gap:5px;min-width:170px}
+  .center{text-align:center}
+  .quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:6px}
+  .tile{background:rgba(243,227,195,.07);border:1px solid rgba(232,180,90,.2);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:.25s}
+  .tile:hover{transform:translateY(-4px);background:rgba(232,180,90,.18)}
+  .tile b{display:block;font-size:1.6rem;color:var(--gold)}
+  .tile span{font-size:.8rem;color:var(--dim)}
+  h3.sec{color:var(--gold);margin:4px 0 12px}
+  .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .tip{background:rgba(243,227,195,.06);border-radius:14px;padding:16px;transition:.25s}
+  .tip:hover{transform:translateY(-3px)}
+  .tip h4{color:var(--gold);margin-bottom:6px}
+  .tip p{color:var(--dim);line-height:1.5;font-size:.95rem}
+
+  /* test */
+  .stats{display:flex;gap:26px;margin-bottom:12px;flex-wrap:wrap}
+  .stat span{display:block;font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+  .stat b{font-size:1.8rem;color:var(--gold)}
+  .bar{height:5px;background:rgba(255,255,255,.08);border-radius:5px;margin-bottom:14px;overflow:hidden}
+  .bar div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),#f6d58a);transition:width .15s}
+  .text{position:relative;font-size:1.5rem;line-height:2.2rem;font-family:"Courier New",monospace;background:rgba(243,227,195,.06);border-radius:12px;padding:12px 18px;height:8.2rem;overflow:hidden;user-select:none;word-break:break-word;scroll-behavior:smooth}
+  .text span{color:#a99372;border-radius:3px}
+  .text span.ok{color:var(--good)}
+  .text span.bad{color:#fff;background:rgba(255,122,107,.6)}
+  .text span.cur{background:rgba(232,180,90,.4);color:#fff;animation:blink 1s infinite}
+  @keyframes blink{50%{background:rgba(232,180,90,.1)}}
+  .text.shake{animation:shk .18s}
+  @keyframes shk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .hint{color:var(--dim);font-size:.9rem;margin-top:10px}
+  .title{color:var(--gold);margin-bottom:8px;font-style:italic}
+
+  /* ready */
+  .ready{text-align:center;padding:40px 20px}
+  .ready h2{color:var(--gold);font-size:2rem;margin-bottom:8px}
+  .ready p{color:var(--dim);margin-bottom:18px}
+  .ready .big{font-size:3rem;animation:bob 2s ease-in-out infinite;display:block;margin-bottom:6px}
+  @keyframes bob{50%{transform:translateY(-10px)}}
+
+  /* ================= RESULTS ================= */
+  .res{text-align:center;overflow:hidden}
+  .rank{display:inline-block;margin-bottom:10px;padding:8px 22px;border:2px solid var(--gold);border-radius:12px;color:var(--gold);transform:rotate(-3deg);animation:stamp .7s .2s cubic-bezier(.2,1.6,.4,1) both;background:rgba(232,180,90,.1)}
+  .rank small{display:block;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+  .rank b{font-size:1.4rem}
+  @keyframes stamp{from{opacity:0;transform:scale(3) rotate(-18deg)}to{opacity:1;transform:scale(1) rotate(-3deg)}}
+  .res h2{color:var(--gold);font-size:1.9rem}
+  .res .sub{color:var(--dim);margin:4px 0 18px}
+  .equation{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 8px}
+  .ringbox{position:relative;width:150px;text-align:center;animation:pop2 .7s both}
+  .ringbox:nth-child(1){animation-delay:.3s}.ringbox:nth-child(3){animation-delay:.9s}.ringbox:nth-child(5){animation-delay:1.5s}
+  @keyframes pop2{from{opacity:0;transform:scale(.3) translateY(30px)}to{opacity:1;transform:none}}
+  .ring{width:150px;height:150px}
+  .ring circle{fill:none;stroke-width:9}
+  .ring .bg{stroke:rgba(243,227,195,.12)}
+  .ring .fg{stroke:#e8b45a;stroke-linecap:round;stroke-dasharray:327;stroke-dashoffset:327;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1)}
+  .ring .fg.good{stroke:#8fd694}
+  .ringbox.net .ring{filter:drop-shadow(0 0 14px rgba(232,180,90,.7));animation:glowring 2s ease-in-out 2.4s infinite}
+  @keyframes glowring{50%{filter:drop-shadow(0 0 26px rgba(255,214,120,1))}}
+  .rv{position:absolute;top:0;left:0;width:150px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .rv b{font-size:2.3rem;color:#fff2c4;line-height:1}
+  .rv span{font-size:.8rem;color:var(--dim)}
+  .ringbox em{display:block;font-style:normal;font-size:.8rem;color:var(--dim);margin-top:4px}
+  .op{font-size:2.2rem;color:var(--gold);animation:pop2 .5s both}
+  #op1{animation-delay:.7s}#op2{animation-delay:1.3s}
+  .level{display:inline-block;margin:6px 0;padding:5px 16px;border-radius:20px;background:rgba(232,180,90,.16);color:var(--gold);animation:up .6s 2s both}
+  .record{display:none;margin:6px 6px;padding:5px 16px;border-radius:20px;background:linear-gradient(90deg,#e8b45a,#f6d58a);color:var(--ink);font-weight:bold;animation:recpop 1s 2.2s both}
+  @keyframes recpop{0%{opacity:0;transform:scale(.2)}60%{transform:scale(1.25)}100%{opacity:1;transform:scale(1)}}
+  .chartwrap{position:relative;height:225px;margin:34px 6px 44px;text-align:left}
+  .gl{position:absolute;left:0;right:0;border-top:1px dashed rgba(243,227,195,.25)}
+  .gl span{position:absolute;right:0;top:-18px;font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+  .bars{position:absolute;left:0;right:70px;bottom:0;top:0;display:flex;align-items:flex-end;justify-content:center;gap:18px}
+  .bw{position:relative;width:52px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .bv{font-weight:bold;color:var(--gold);margin-bottom:4px;font-size:1.05rem}
+  .b{width:100%;height:0;border-radius:8px 8px 0 0;background:linear-gradient(180deg,#f6d58a,#c8892f);transition:height 1.3s cubic-bezier(.2,1.25,.3,1)}
+  .b.avg{background:linear-gradient(180deg,#b9ad9a,#7d7466)}
+  .b.last{background:linear-gradient(180deg,#b8f0a0,#4f9a4a);box-shadow:0 0 18px rgba(143,214,148,.6)}
+  .bl{position:absolute;bottom:-26px;font-size:.68rem;color:var(--dim);white-space:nowrap}
+  .rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:10px 0}
+  .box{background:rgba(243,227,195,.07);border-radius:12px;padding:12px;text-align:center;animation:up .6s 2.4s both}
+  .box span{display:block;color:var(--dim);font-size:.72rem;text-transform:uppercase;letter-spacing:1px}
+  .box b{font-size:1.5rem;color:var(--gold)}
+  .keys{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .keys em{font-style:normal;background:rgba(255,122,107,.25);border:1px solid rgba(255,122,107,.5);padding:4px 10px;border-radius:8px;font-family:monospace}
+  .tipbox{margin:16px auto 6px;max-width:560px;background:rgba(143,214,148,.1);border:1px solid rgba(143,214,148,.35);border-radius:14px;padding:14px 18px;animation:up .6s 2.6s both}
+  .tipbox h4{color:var(--good);margin-bottom:4px}
+  .tipbox p{color:var(--paper);line-height:1.5;font-size:.95rem}
+  .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  /* confetti */
+  .conf{position:fixed;z-index:60;pointer-events:none;animation:burst 1.8s ease-out forwards}
+  .conf.leafc{width:14px;height:14px;border-radius:0 100% 0 100%}
+  .conf.spark{width:8px;height:8px;border-radius:2px}
+  @keyframes burst{0%{transform:translate(0,0) rotate(0) scale(.4);opacity:1}70%{opacity:1}100%{transform:translate(var(--tx),calc(var(--ty) + 240px)) rotate(600deg) scale(1);opacity:0}}
+
+  .ad{min-height:90px;border:1px dashed rgba(232,180,90,.35);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:.85rem}
+  footer{color:var(--dim);font-size:.85rem;text-align:center;margin-top:20px}
+  @media(max-width:600px){.text{font-size:1.1rem;line-height:1.8rem;height:6.8rem}.op{display:none}.bars{gap:8px;right:40px}.bw{width:40px}}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1L7XHGQMM7"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments)}
+gtag('js',new Date());gtag('config','G-1L7XHGQMM7');
+</script>
+</head>
+<body data-theme="library">
+
+<!-- ================= SCENE ================= -->
+<div class="scene" aria-hidden="true">
+  <div class="sc library">
+    <div class="layer l-window"></div>
+    <div class="layer"><div class="shelf left"></div><div class="shelf right"></div></div>
+    <div class="layer l-plants"><i></i><i></i></div>
+    <div class="layer px"><div class="bgimg" id="imgLib"></div></div>
+    <div class="layer l-glow"></div>
+  </div>
+  <div class="sc meadow">
+    <div class="layer sky"></div>
+    <div class="sun"></div>
+    <div class="layer"><div class="hill h1"></div></div>
+    <div class="layer"><div class="hill h2"></div><div class="tree" style="left:18%"></div><div class="tree" style="left:74%;height:180px"></div></div>
+    <div class="layer"><div class="hill h3"></div></div>
+    <div class="layer px"><div class="bgimg" id="imgMea"></div></div>
+    <div class="layer m-shade"></div>
+  </div>
+  <div class="rays"></div>
+</div>
+<div class="frame" id="frame" aria-hidden="true"></div>
+<div class="fly" id="fly" aria-hidden="true"></div>
+<div class="dust" id="dust" aria-hidden="true"></div>
+<div class="bugs" id="bugs" aria-hidden="true"></div>
+
+<!-- ================= SPLASH ================= -->
+<div id="splash">
+  <div class="fire" style="left:20%;top:62%"></div><div class="fire" style="left:75%;top:55%;animation-delay:-2s"></div><div class="fire" style="left:48%;top:75%;animation-delay:-3.5s"></div>
+  <h1 id="splashTitle"></h1>
+  <p>A cozy place to get faster at typing</p>
+  <button class="primary" id="enter">Step inside</button>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="logo" id="logo">Cozy Type</div>
+    <div class="hd-right">
+      <a class="pill" href="/tools" style="text-decoration:none;color:inherit">&larr; HydCart tools</a>
+      <div class="pill">Streak <b id="streak">0</b> days</div>
+      <div class="pill">Best <b id="bestTop">0</b> WPM</div>
+      <button id="snd">Sound: on</button>
+      <button id="theme">Switch to meadow</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="view" id="home">
+      <div class="card">
+        <div class="hero">
+          <h2>Test Your Typing Speed</h2>
+          <p>Pick a timer, pick your style, and type in peace.</p>
+        </div>
+        <div class="cfg">
+          <label>Test length
+            <select id="mode">
+              <option value="30">30 seconds</option>
+              <option value="60" selected>1 minute</option>
+              <option value="120">2 minutes</option>
+              <option value="180">3 minutes</option>
+              <option value="300">5 minutes</option>
+              <option value="story">Story (no timer)</option>
+            </select>
+          </label>
+          <label id="diffWrap">Text difficulty
+            <select id="diff">
+              <option value="easy">Easy text</option>
+              <option value="medium" selected>Medium text</option>
+              <option value="hard">Hard text</option>
+            </select>
+          </label>
+          <label id="storyWrap" style="display:none">Choose a story
+            <select id="storyPick"></select>
+          </label>
+        </div>
+        <div class="center"><button class="primary" id="start">Start typing test</button></div>
+      </div>
+
+      <div class="card">
+        <h3 class="sec">Quick start</h3>
+        <div class="quick">
+          <div class="tile" data-q="30"><b>30s</b><span>Quick warm-up</span></div>
+          <div class="tile" data-q="60"><b>1 min</b><span>Standard test</span></div>
+          <div class="tile" data-q="120"><b>2 min</b><span>Real stamina</span></div>
+          <div class="tile" data-q="300"><b>5 min</b><span>Deep focus</span></div>
+          <div class="tile" data-q="story"><b>Story</b><span>Relaxed reading</span></div>
+        </div>
+      </div>
+
+      <div class="card ad"><!-- Paste Google AdSense code here after approval -->Ad space</div>
+
+      <div class="card">
+        <h3 class="sec">Tips to type faster</h3>
+        <div class="tips">
+          <div class="tip"><h4>Home row first</h4><p>Rest your index fingers on F and J. Your hands always return there, so your fingers learn the map.</p></div>
+          <div class="tip"><h4>Accuracy over speed</h4><p>Slow and clean builds the habit. Speed arrives on its own after a few days of careful practice.</p></div>
+          <div class="tip"><h4>Short daily sessions</h4><p>Ten relaxed minutes every day beats one long session a week. Keep your streak alive.</p></div>
+          <div class="tip"><h4>Look at the screen</h4><p>Try not to glance at the keyboard. It feels slow for a few days, then it becomes natural.</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="sec">About Cozy Type</h3>
+        <p style="color:var(--dim);line-height:1.7">Cozy Type is a free typing speed test. It measures your words per minute (WPM) and accuracy, shows which keys you miss most, and keeps your recent results and daily streak on your own device. Choose a 30 second to 5 minute test, or relax with an original short story.</p>
+      </div>
+    </section>
+
+    <!-- TEST -->
+    <section class="view" id="test">
+      <div class="card">
+        <div class="stats">
+          <div class="stat"><span>WPM</span><b id="wpm">0</b></div>
+          <div class="stat"><span>Accuracy</span><b id="acc">100%</b></div>
+          <div class="stat"><span id="timeLabel">Time left</span><b id="time">0s</b></div>
+        </div>
+        <div class="bar"><div id="prog"></div></div>
+        <div class="title" id="storyTitle"></div>
+        <div class="text" id="text"></div>
+        <div class="hint">Just start typing, the timer begins with your first key. Press space to move to the next word. Esc to go back.</div>
+      </div>
+    </section>
+
+    <!-- READY -->
+    <section class="view" id="ready">
+      <div class="card ready">
+        <span class="big">&#128214;</span>
+        <h2>Nicely done!</h2>
+        <p>Your result is ready. Want to tell me your name before I show it?</p>
+        <input id="nick" maxlength="20" placeholder="Your name (optional)" autocomplete="off">
+        <div style="margin-top:18px"><button class="primary" id="reveal">Show my result</button></div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="view" id="results">
+      <div class="card res">
+        <div class="rank"><small>Your rank</small><b id="rRankName">Page Turner</b></div>
+        <h2 id="rHello">Great job!</h2>
+        <p class="sub" id="rMode"></p>
+
+        <div class="equation">
+          <div class="ringbox">
+            <svg class="ring" viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringSpeed" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/></svg>
+            <div class="rv"><b id="rGross">0</b><span>WPM</span></div><em>Typing speed</em>
+          </div>
+          <div class="op" id="op1">&times;</div>
+          <div class="ringbox">
+            <svg class="ring" viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg good" id="ringAcc" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/></svg>
+            <div class="rv"><b id="rAcc">0</b><span id="rTypos">0 typos</span></div><em>Accuracy %</em>
+          </div>
+          <div class="op" id="op2">=</div>
+          <div class="ringbox net">
+            <svg class="ring" viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringNet" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/></svg>
+            <div class="rv"><b id="rWpm">0</b><span>WPM</span></div><em>Net speed</em>
+          </div>
+        </div>
+        <div><span class="level" id="rLevel">Average</span><span class="record" id="recordBadge">&#9819; New personal best!</span></div>
+
+        <div class="chartwrap" id="chartwrap">
+          <div id="grid"></div>
+          <div class="bars" id="bars"></div>
+        </div>
+
+        <div class="rstats">
+          <div class="box"><span>Time</span><b id="rTime">0s</b></div>
+          <div class="box"><span>Mistakes</span><b id="rMis">0</b></div>
+          <div class="box"><span>Characters</span><b id="rChars">0</b></div>
+          <div class="box"><span>Personal best</span><b id="rBest">0</b></div>
+        </div>
+        <p style="color:var(--dim);margin:14px 0 4px">Keys you missed most</p>
+        <div class="keys" id="keys"></div>
+        <div class="tipbox"><h4>Your next step</h4><p id="tipText"></p></div>
+        <div class="row">
+          <button class="primary" id="again">Try again</button>
+          <button id="goHome">Change test</button>
+        </div>
+      </div>
+      <div class="card ad"><!-- AdSense code here -->Ad space</div>
+    </section>
+  </main>
+  <footer>Made with love. Your results are saved only in your browser.</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const C=327;
+
+/* ================= TEXT BANK (all original) ================= */
+const STORIES=[
+ {t:"The Lantern Keeper",s:"Every evening, old Maro climbed the hill to light the lantern above the harbor. Nobody asked him to, and nobody thanked him, yet the fishing boats always found their way home. One stormy night the lantern went out, and the whole village climbed the hill together. They carried candles, lamps and torches, and the harbor shone brighter than ever before."},
+ {t:"The Quiet Library",s:"Nina found a small door at the back of the library that was never there before. Behind it was a room full of books with no titles. When she opened one, the pages began to whisper her own favorite memories. She stayed until the sun went down, then promised to visit again, and the door smiled as it closed."},
+ {t:"A Cup of Rain",s:"A little cloud named Pip was afraid of thunder, so he never rained. The garden below grew dry and sad. One day a tiny seed asked him politely for just one drop. Pip took a deep breath and let go, and the thunder turned out to be only a laugh. Soon the whole garden was dancing in the water."},
+ {t:"The Clockmaker's Cat",s:"In a narrow street lived a clockmaker and his gray cat, Tock. The cat knew the exact time without any clock at all. When customers came in confused about the hour, Tock would simply stretch, yawn and walk to the window. The sun always agreed with him, and the clockmaker always smiled."},
+ {t:"Mountain Tea",s:"High in the mountains there is a small hut that serves the warmest tea in the world. Travelers climb for days just to taste it. The secret is not in the leaves or the water. It is in the old woman who stops everything to listen to each guest before she pours the first cup."},
+ {t:"The Paper Boat",s:"After the rain, Sam folded a paper boat and set it on the stream. It bumped against stones, spun in small whirlpools and almost sank twice. But it kept floating forward. Sam ran along the bank, cheering, until the boat reached the wide river and sailed away into the golden evening."}
+];
+const SENT={
+ easy:["The sun is warm and the sky is blue.","I like to sit by the window and read.","A small cat sleeps on the soft chair.","We walk to the park after lunch.","The tea is hot and the cake is sweet.","Birds sing in the tall green trees.","She opens the book and starts to read.","Rain falls on the roof all night long.","He plays a game with his best friend.","The moon is bright over the quiet town.","Mom bakes fresh bread every morning.","Our dog runs fast across the field."],
+ medium:["On quiet evenings, the old library fills with the smell of paper and warm tea.","She collected small stones from the river and arranged them along the windowsill.","A gentle breeze carried the scent of rain across the sleepy village.","Learning to type well takes patience, but every day of practice makes it easier.","The baker opened his shop before sunrise, humming a tune he had known for years.","Between the mountains and the sea, a narrow road winds through quiet farms.","He wrote his ideas in a notebook, hoping one of them would grow into something great.","The train rolled slowly through golden fields while the passengers watched in silence.","Every morning, the gardener checks each flower and whispers a small thank you.","A lantern glowed in the window, inviting tired travelers to rest and share a story.","Friends gathered around the fire, laughing about the adventures of the summer.","The artist mixed soft colors until the canvas looked like a quiet sunset."],
+ hard:["In 2026, over 1,250 travelers crossed the bridge; however, only 37 stayed until midnight.","\"Don't rush,\" she said, \"accuracy matters more than speed - especially at 60 words per minute.\"","The architect's blueprint (version 3.2) required precise measurements: 14.5 meters by 8.75 meters.","Quickly, the explorer unpacked her equipment, checked the barometer, and recorded: 'Pressure steady at 1,013 hPa.'","Although the weather was unpredictable, the festival's organizers - exhausted yet determined - kept every schedule.","Mysterious symbols appeared on the wall; scientists argued, measured, photographed, and eventually disagreed.","Order #4821 includes three notebooks, two pens, and one very large cup of coffee.","Without warning, the clock struck thirteen, and every shadow in the room seemed to stretch toward the door.","He typed 'Hello, World!' exactly 25 times, then smiled: the keyboard finally felt like home.","Remember: practice makes progress, not perfection; consistency beats intensity every single time."]
+};
+STORIES.forEach((s,i)=>{const o=document.createElement("option");o.value=i;o.textContent=s.t;$("storyPick").appendChild(o)});
+
+/* ================= STATE ================= */
+let view="splash",cfg={mode:"60",diff:"medium",story:0};
+let text="",chars=[],idx=0,started=false,startT=0,timer=null,finished=false;
+let keystrokes=0,wrongKeys=0,errPos=new Set(),missed={},last=-1,result=null,nick="";
+function show(v){view=v;["home","test","ready","results"].forEach(n=>$(n).style.display=n===v?"block":"none");document.body.classList.toggle("typing",v==="test");window.scrollTo(0,0)}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+
+/* ================= SOUND (made with code, no files) ================= */
+let sndOn=load("cozysound",true),AC=null;
+function ac(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume();return AC}
+function tone(f,d,type="sine",vol=.05,when=0,slide=0){
+  if(!sndOn)return;const a=ac();if(!a)return;
+  const t=a.currentTime+when,o=a.createOscillator(),g=a.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,t);
+  if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f+slide),t+d);
+  g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.03);
+}
+const sClick=()=>tone(700+Math.random()*250,.035,"triangle",.03);
+const sSpace=()=>tone(420,.045,"triangle",.03);
+const sWrong=()=>tone(160,.14,"sawtooth",.035);
+const sPop=()=>tone(520,.09,"sine",.05,0,320);
+const sChime=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.5,"sine",.06,i*.12));
+const sBig=()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,.7,"triangle",.06,i*.1));
+
+/* ================= TEXT GENERATION ================= */
+function nextChunk(){
+  const pool=SENT[cfg.diff];let out="";
+  for(let i=0;i<4;i++){let n;do{n=Math.floor(Math.random()*pool.length)}while(n===last&&pool.length>1);last=n;out+=(out?" ":"")+pool[n]}
+  return out;
+}
+function appendText(str){
+  [...str].forEach(c=>{const sp=document.createElement("span");sp.textContent=c;$("text").appendChild(sp);chars.push(sp)});
+  text+=str;
+}
+
+/* ================= TEST FLOW ================= */
+function startTest(){
+  const timed=cfg.mode!=="story";
+  $("text").innerHTML="";chars=[];text="";idx=0;started=false;finished=false;keystrokes=0;wrongKeys=0;errPos=new Set();missed={};
+  clearInterval(timer);
+  if(timed){
+    $("storyTitle").textContent=$("mode").selectedOptions[0].textContent+" - "+cfg.diff+" text";
+    $("timeLabel").textContent="Time left";$("time").textContent=cfg.mode+"s";
+    appendText(nextChunk());
+  }else{
+    const s=STORIES[cfg.story];$("storyTitle").textContent=s.t;
+    $("timeLabel").textContent="Time";$("time").textContent="0s";
+    appendText(s.s);
+  }
+  $("wpm").textContent=0;$("acc").textContent="100%";$("prog").style.width="0";$("text").scrollTop=0;
+  chars[0].className="cur";
+  show("test");
+}
+function elapsed(){return started?(Date.now()-startT)/1000:0}
+function correct(){let n=0;for(let i=0;i<idx;i++)if(!errPos.has(i))n++;return n}
+function tick(){
+  const el=elapsed(),timed=cfg.mode!=="story";
+  const t=Math.max(timed?Math.min(el,+cfg.mode):el,1);
+  $("wpm").textContent=Math.round((correct()/5)/(t/60));
+  $("acc").textContent=(keystrokes?Math.round((keystrokes-wrongKeys)/keystrokes*100):100)+"%";
+  if(timed){
+    $("time").textContent=Math.max(0,Math.ceil(+cfg.mode-el))+"s";
+    $("prog").style.width=Math.min(100,el/+cfg.mode*100)+"%";
+    if(el>=+cfg.mode)finishTest();
+  }else $("time").textContent=Math.floor(el)+"s";
+}
+function shake(){const t=$("text");t.classList.remove("shake");void t.offsetWidth;t.classList.add("shake")}
+
+document.addEventListener("keydown",e=>{
+  if(view!=="test"||finished)return;
+  if(["INPUT","SELECT"].includes(e.target.tagName))return;
+  if(e.key==="Escape"){clearInterval(timer);show("home");return}
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  if(e.key==="Backspace"){
+    e.preventDefault();
+    if(idx>0&&text[idx-1]!==" "){chars[idx].className="";idx--;chars[idx].className="cur";errPos.delete(idx);tone(300,.04,"triangle",.02)}
+    return;
+  }
+  if(e.key.length!==1)return;
+  e.preventDefault();
+  if(!started){started=true;startT=Date.now();timer=setInterval(tick,100)}
+  const want=text[idx];
+
+  if(e.key===" "){
+    if(want===" "){keystrokes++;chars[idx].className="ok";idx++;sSpace()}
+    else if(idx===0||text[idx-1]===" "){return}                       /* stray space at start of a word: ignore */
+    else{                                                              /* space pressed early: skip the rest of the word */
+      keystrokes++;wrongKeys++;missed["space"]=(missed["space"]||0)+1;
+      const sp=text.indexOf(" ",idx),end=sp===-1?text.length:sp;
+      for(let i=idx;i<end;i++){chars[i].className="bad";errPos.add(i)}
+      if(sp!==-1){chars[sp].className="ok";idx=sp+1}else idx=text.length;
+      sWrong();shake();
+    }
+  }else if(want===" "){                                                /* extra key after the word ended */
+    keystrokes++;wrongKeys++;sWrong();shake();tick();return;
+  }else{
+    keystrokes++;
+    if(e.key===want){chars[idx].className="ok";sClick()}
+    else{chars[idx].className="bad";errPos.add(idx);wrongKeys++;missed[want]=(missed[want]||0)+1;sWrong()}
+    idx++;
+  }
+
+  if(cfg.mode==="story"){
+    $("prog").style.width=(idx/text.length*100)+"%";
+    if(idx>=text.length){finishTest();return}
+  }else if(text.length-idx<120)appendText(" "+nextChunk());   /* the space between chunks was the old bug */
+  chars[idx].className="cur";
+  $("text").scrollTop=Math.max(0,chars[idx].offsetTop-44);
+  tick();
+});
+
+function rankFor(w){return w<15?"Sleepy Seedling":w<25?"Curious Sprout":w<35?"Page Turner":w<45?"Library Fox":w<60?"Wind Whisperer":"Forest Sage"}
+function levelFor(w){return w<25?"Level: Slow":w<45?"Level: Average":w<65?"Level: Fluent":"Level: Fast"}
+
+function finishTest(){
+  if(finished)return;finished=true;clearInterval(timer);
+  const timed=cfg.mode!=="story";
+  const t=Math.max(timed?Math.min(elapsed(),+cfg.mode):elapsed(),1);
+  const net=Math.round((correct()/5)/(t/60));
+  const gross=Math.round((idx/5)/(t/60));
+  const acc=keystrokes?Math.round((keystrokes-wrongKeys)/keystrokes*100):0;
+  let hist=load("cozytype",[]);
+  const prevBest=hist.length?Math.max(...hist.map(h=>h.wpm)):0;
+  hist.push({wpm:net,acc,date:Date.now()});hist=hist.slice(-50);save("cozytype",hist);
+  const days=load("cozydays",[]);const today=dayKey(0);if(!days.includes(today)){days.push(today);save("cozydays",days.slice(-400))}
+  result={net,gross,acc,t:Math.round(t),mis:wrongKeys,n:idx,best:Math.max(...hist.map(h=>h.wpm)),record:hist.length>1&&net>prevBest,bars:hist.slice(-6),missed:{...missed}};
+  refreshTop();sChime();
+  $("nick").value=nick||load("cozynick","");
+  show("ready");
+}
+
+/* ================= RESULT REVEAL ================= */
+function countUp(el,to,ms=1500){const t0=performance.now();(function f(n){const p=Math.min(1,(n-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+function ring(id,frac){$(id).style.strokeDashoffset=C*(1-Math.max(0,Math.min(1,frac)))}
+function tipFor(r){
+  const worst=Object.entries(r.missed).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]).filter(k=>k!=="space");
+  if(r.acc<90)return "Slow down a little. Clean typing comes first and speed follows. Try the Easy text until your accuracy stays above 95%.";
+  if(worst.length&&r.net<45)return "Your tricky keys were "+worst.join(", ")+". Practice a few short words with those keys, and keep your eyes on the screen.";
+  if(r.net<45)return "Keep your fingers on the home row (F and J) and practice ten relaxed minutes every day. Your streak will do the rest.";
+  return "Strong typing! Try the Hard text with punctuation and numbers for a new challenge.";
+}
+function buildBars(r){
+  const items=[{l:"Average typist",w:40,avg:true}].concat(r.bars.map(b=>({l:new Date(b.date).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),w:b.wpm})));
+  items[items.length-1].last=true;
+  const max=Math.max(85,...items.map(i=>i.w))*1.08,H=190;
+  $("grid").innerHTML=[[25,"Slow"],[45,"Average"],[65,"Fluent"],[85,"Fast"]].map(([v,l])=>`<div class="gl" style="bottom:${v/max*H}px"><span>${l}</span></div>`).join("");
+  const wrap=$("bars");wrap.innerHTML="";
+  items.forEach((it,i)=>{
+    const w=document.createElement("div");w.className="bw";
+    w.innerHTML=`<div class="bv">${it.last&&r.record?"&#9819; ":""}${it.w}</div><div class="b ${it.avg?"avg":it.last?"last":""}"></div><div class="bl">${it.l}</div>`;
+    wrap.appendChild(w);
+    const b=w.querySelector(".b");b.style.transitionDelay=(.2+i*.15)+"s";
+    setTimeout(()=>{b.style.height=Math.round(it.w/max*H)+"px"},60);
+  });
+}
+function burst(n,el){
+  const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  const cols=["#e8b45a","#f6d58a","#8fd694","#ff9ad5","#7be8ff","#ffb347"];
+  for(let i=0;i<n;i++){
+    const p=document.createElement("i");p.className="conf "+(Math.random()<.5?"leafc":"spark");
+    p.style.left=cx+"px";p.style.top=cy+"px";p.style.background=cols[i%cols.length];
+    const a=Math.random()*Math.PI*2,d=110+Math.random()*280;
+    p.style.setProperty("--tx",Math.cos(a)*d+"px");p.style.setProperty("--ty",(Math.sin(a)*d-130)+"px");
+    document.body.appendChild(p);setTimeout(()=>p.remove(),1900);
+  }
+}
+$("reveal").onclick=()=>{
+  nick=$("nick").value.trim();save("cozynick",nick);
+  const r=result;
+  $("rHello").textContent=nick?`Great job, ${nick}!`:"Great job!";
+  $("rMode").textContent=cfg.mode==="story"?"Story: "+STORIES[cfg.story].t:$("mode").selectedOptions[0].textContent+" - "+cfg.diff+" text";
+  $("rRankName").textContent=rankFor(r.net);$("rLevel").textContent=levelFor(r.net);
+  $("recordBadge").style.display=r.record?"inline-block":"none";
+  $("rTypos").textContent=r.mis+(r.mis===1?" typo":" typos");
+  $("rTime").textContent=r.t+"s";$("rMis").textContent=r.mis;$("rChars").textContent=r.n;$("rBest").textContent=r.best;
+  const top=Object.entries(r.missed).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  $("keys").innerHTML=top.length?top.map(([k,n])=>`<em>${k.replace(/[<>&]/g,"?")} x${n}</em>`).join(""):"<span style='color:#8fd694'>No mistakes. Perfect!</span>";
+  $("tipText").textContent=tipFor(r);
+  ["ringSpeed","ringAcc","ringNet"].forEach(id=>$(id).style.strokeDashoffset=C);
+  $("rGross").textContent=0;$("rAcc").textContent=0;$("rWpm").textContent=0;
+  show("results");
+  setTimeout(()=>{ring("ringSpeed",r.gross/100);countUp($("rGross"),r.gross)},350);
+  setTimeout(()=>{ring("ringAcc",r.acc/100);countUp($("rAcc"),r.acc)},950);
+  setTimeout(()=>{ring("ringNet",r.net/100);countUp($("rWpm"),r.net,1800)},1550);
+  setTimeout(buildBars.bind(null,r),1900);
+  setTimeout(()=>{(r.record?sBig:sChime)();burst(r.record?80:40,$("ringNet"))},3200);
+  tone(330,.4,"sine",.05,0,200);
+};
+
+/* ================= HOME, STREAK, THEME ================= */
+function dayKey(o){const d=new Date();d.setDate(d.getDate()-o);return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function refreshTop(){
+  const days=load("cozydays",[]);let s=0,o=days.includes(dayKey(0))?0:1;
+  while(days.includes(dayKey(o))){s++;o++}
+  $("streak").textContent=s;
+  const h=load("cozytype",[]);$("bestTop").textContent=h.length?Math.max(...h.map(x=>x.wpm)):0;
+}
+function syncCfg(){
+  cfg.mode=$("mode").value;cfg.diff=$("diff").value;cfg.story=+$("storyPick").value;
+  const story=cfg.mode==="story";$("diffWrap").style.display=story?"none":"flex";$("storyWrap").style.display=story?"flex":"none";
+}
+["mode","diff","storyPick"].forEach(i=>$(i).onchange=syncCfg);
+$("start").onclick=()=>{syncCfg();startTest()};
+document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>{$("mode").value=t.dataset.q;syncCfg();startTest()});
+$("again").onclick=startTest;
+$("goHome").onclick=()=>show("home");
+$("logo").onclick=()=>{clearInterval(timer);show("home")};
+function setTheme(t){document.body.dataset.theme=t;$("theme").textContent=t==="library"?"Switch to meadow":"Switch to library";save("cozytheme",t);buildFly()}
+$("theme").onclick=()=>setTheme(document.body.dataset.theme==="library"?"meadow":"library");
+$("snd").onclick=()=>{sndOn=!sndOn;save("cozysound",sndOn);$("snd").textContent=sndOn?"Sound: on":"Sound: off";if(sndOn)sPop()};
+$("snd").textContent=sndOn?"Sound: on":"Sound: off";
+
+/* pop animation + sound on every button / tile */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button,.tile");if(!b)return;
+  b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
+  if(b.id!=="snd")sPop();
+});
+
+/* ================= MOTION ================= */
+document.addEventListener("mousemove",e=>{
+  const r=document.documentElement.style;
+  r.setProperty("--mx",(e.clientX/innerWidth*2-1).toFixed(3));
+  r.setProperty("--my",(e.clientY/innerHeight*2-1).toFixed(3));
+});
+function buildFly(){
+  const f=$("fly");f.innerHTML="";
+  const cols=["#6fae4f","#d98a2b","#c4562a","#9bc45a","#e0b13c"],mea=document.body.dataset.theme==="meadow";
+  for(let i=0;i<16;i++){
+    const el=document.createElement("i");el.className="leaf";
+    el.style.background=cols[i%cols.length];el.style.top=(Math.random()*80)+"%";el.style.setProperty("--dy",(Math.random()*30-10)+"vh");
+    el.style.animationDuration=(16+Math.random()*16)+"s";el.style.animationDelay=(-Math.random()*30)+"s";
+    el.style.display=(mea||i<5)?"block":"none";f.appendChild(el);
+  }
+  for(let i=0;i<10;i++){
+    const el=document.createElement("i");el.className="page";
+    el.style.top=(Math.random()*80)+"%";el.style.setProperty("--dy",(Math.random()*30-10)+"vh");
+    el.style.animationDuration=(18+Math.random()*16)+"s";el.style.animationDelay=(-Math.random()*30)+"s";
+    el.style.display=(!mea||i<3)?"block":"none";f.appendChild(el);
+  }
+}
+function buildFrame(){
+  const f=$("frame");
+  const root=side=>`<svg class="roots ${side}" viewBox="0 0 300 250"><g fill="none" stroke-linecap="round">
+   <path d="M0 60C60 70 90 130 150 160S250 200 300 238" stroke="#2a1a0d" stroke-width="28"/><path d="M0 60C60 70 90 130 150 160S250 200 300 238" stroke="#6a4526" stroke-width="9" stroke-dasharray="16 12" opacity=".7"/>
+   <path d="M0 115C50 125 70 170 110 200S170 232 215 244" stroke="#2a1a0d" stroke-width="22"/><path d="M0 115C50 125 70 170 110 200S170 232 215 244" stroke="#6a4526" stroke-width="7" stroke-dasharray="14 11" opacity=".7"/>
+   <path d="M0 15C40 28 55 80 80 118S125 172 150 205" stroke="#2a1a0d" stroke-width="17"/><path d="M0 15C40 28 55 80 80 118S125 172 150 205" stroke="#6a4526" stroke-width="6" stroke-dasharray="12 10" opacity=".7"/>
+  </g></svg>`;
+  f.innerHTML='<div class="trunk left"></div><div class="trunk right"></div>'+root("left")+root("right");
+  const lc=["#3f8a3a","#5aa34a","#2f6a2a","#76b85a"];
+  for(let i=0;i<18;i++){
+    const left=i<6?Math.random()*14:i<12?86+Math.random()*13:14+Math.random()*72;
+    const H=Math.round(140+Math.random()*(i<12?260:120));
+    const d=document.createElement("div");d.className="vine";d.style.left=left+"%";d.style.height=H+"px";
+    d.style.animationDuration=(5+Math.random()*4)+"s";d.style.animationDelay=(-Math.random()*6)+"s";
+    let leaves="";const n=Math.floor(H/22);
+    for(let k=1;k<=n;k++){const y=k*H/(n+1),s=k%2?1:-1,x=25+s*(7+Math.sin(k)*3);leaves+=`<ellipse cx="${x}" cy="${y}" rx="9" ry="4.2" transform="rotate(${s*35} ${x} ${y})" fill="${lc[k%4]}"/>`}
+    d.innerHTML=`<svg width="50" height="${H}" viewBox="0 0 50 ${H}"><path d="M25 0C10 ${H*.25} 40 ${H*.5} 25 ${H*.75}S18 ${H*.95} 25 ${H}" fill="none" stroke="#2b5a26" stroke-width="3" stroke-linecap="round"/>${leaves}</svg>`;
+    f.appendChild(d);
+  }
+}
+function buildBugs(){
+  const b=$("bugs"),cols=["#5ff0ff","#ff7ad9","#b6ff5a","#ffb347","#c79bff","#7be8ff"];
+  for(let i=0;i<6;i++){
+    const e=document.createElement("div");e.className="bf";e.style.setProperty("--c",cols[i]);
+    e.style.left=(i%2?88+Math.random()*7:2+Math.random()*7)+"%";e.style.top=(15+Math.random()*65)+"%";
+    e.style.animationDuration=(14+Math.random()*12)+"s";e.style.animationDelay=(-Math.random()*20)+"s";b.appendChild(e);
+  }
+  for(let i=0;i<18;i++){
+    const e=document.createElement("div");e.className="ff";
+    e.style.left=(i%2?90+Math.random()*9:1+Math.random()*9)+"%";e.style.top=(10+Math.random()*80)+"%";
+    e.style.animationDuration=(6+Math.random()*6)+"s,"+(1.8+Math.random()*2)+"s";e.style.animationDelay=(-Math.random()*8)+"s,"+(-Math.random()*3)+"s";b.appendChild(e);
+  }
+}
+for(let i=0;i<24;i++){const b=document.createElement("b");b.style.left=Math.random()*100+"%";b.style.animationDuration=(9+Math.random()*10)+"s";b.style.animationDelay=(-Math.random()*12)+"s";b.style.width=b.style.height=(2+Math.random()*3)+"px";$("dust").appendChild(b)}
+
+/* optional AI background pictures: put library.jpg and meadow.jpg next to this file */
+function tryImg(base,el){const ex=[".jpg",".jpeg",".png",".webp"];(function go(i){if(i>=ex.length)return;const im=new Image();im.onload=()=>{el.style.backgroundImage="url("+base+ex[i]+")";el.classList.add("on")};im.onerror=()=>go(i+1);im.src=base+ex[i]})(0)}
+/* drawn 2D scenes only, no picture files */
+
+/* splash */
+"Cozy Type".split("").forEach((c,i)=>{const s=document.createElement("span");s.textContent=c===" "?"\u00A0":c;s.style.animationDelay=(i*0.09)+"s";$("splashTitle").appendChild(s)});
+$("enter").onclick=()=>{ac();sChime();$("splash").classList.add("gone");show("home")};
+
+/* init */
+buildFrame();buildBugs();
+setTheme(load("cozytheme","library"));
+refreshTop();syncCfg();
+["home","test","ready","results"].forEach(n=>$(n).style.display="none");
+</script>
+</body>
+</html>

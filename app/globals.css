@@ -71,3 +71,6 @@ h3{font-size:1.05rem;margin:20px 0 6px}
 .dhero .btn{font-size:clamp(.66rem,1.35cqw,.95rem);padding:.55em 1.1em;white-space:nowrap}
 .dimg{display:block;width:100%;height:100%;object-fit:cover;object-position:left center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%);mask-image:linear-gradient(90deg,transparent,#000 6%)}
 @media(max-width:700px){.dhero{aspect-ratio:auto;grid-template-columns:1fr}.dhero>div{padding:24px}.dimg{display:none}.dhero .row{flex-wrap:wrap}}
+input[type=date]{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+table.t{border-collapse:collapse;width:100%;font-size:.9rem}table.t th,table.t td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.scroll{overflow-x:auto}

@@ -6,7 +6,7 @@ export default function ToolList() {
       {tools.map(t => (
         <li key={t.slug}>
           <div>
-            {t.live ? <Link href={`/tools/${t.slug}`}>{t.name}</Link> : <strong style={{fontFamily:'var(--font-display)'}}>{t.name}</strong>}
+            {t.live ? <Link href={t.href || `/tools/${t.slug}`}>{t.name}</Link> : <strong style={{fontFamily:'var(--font-display)'}}>{t.name}</strong>}
             <span>{t.desc}</span>
           </div>
           <em className={`tag ${t.live ? 'on' : ''}`}>{t.live ? 'Ready to use' : 'Coming soon'}</em>
