@@ -26,6 +26,7 @@ export default function Dashboard() {
             <p style={{ color: '#e6eefa' }}>Create Digital Menus, use Online Tools, and Promote your Business to more customers in Hyderabad.</p>
             <div className="row"><Link className="btn" href="/menus">Create Digital Menu</Link><Link className="btn ghost" href="/businesses">Promote Your Business</Link></div>
           </div>
+          <img className="dimg" src="/hydcart-hero.jpg" alt="" />
         </section>
         <section className="fcards">
           {cards.map(([t, s, d, bg, h]) => <Link key={t} href={h} className="card" style={{ background: bg }}><Icon d={d} color="#d9480f" size={30} /><b>{t}</b><small>{s}</small></Link>)}
